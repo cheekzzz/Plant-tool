@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plant Match Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">Plant recommender • India-ready</p>
+        <h1>Find Plants That Fit Your Home, Lifestyle, and Climate</h1>
+        <p class="hero-copy">Complete the guided steps to get your best match, alternatives, and practical care guidance.</p>
+        <div class="hero-chips" aria-label="Product highlights">
+          <span>⏱ 2-minute quiz</span>
+          <span>🌿 20 climate-ready plants</span>
+          <span>📩 Email-ready care plan</span>
+        </div>
+      </header>
+
+      <section class="card questionnaire" aria-live="polite">
+        <div class="progress-wrap">
+          <div class="progress-labels">
+            <span id="stepIndicator">Step 1 of 7</span>
+            <span id="progressPercent">14%</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="14" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="step-dots" id="stepDots" aria-hidden="true"></div>
+        </div>
+
+        <div class="guided-banner">You're building your green space 🌱</div>
+        <p id="stepFeedback" class="step-feedback">Let's start with where your plant will live.</p>
+
+        <form id="quizForm" novalidate>
+          <div class="step active" data-step="1"><h2>Where do you want to keep this plant?</h2><div class="option-grid"><label class="option-card"><input type="radio" name="type" value="indoor" required /> Indoor</label><label class="option-card"><input type="radio" name="type" value="outdoor" /> Outdoor</label></div></div>
+          <div class="step" data-step="2"><h2>How much sunlight is available?</h2><div class="option-grid"><label class="option-card"><input type="radio" name="sunlight" value="low" required /> Low</label><label class="option-card"><input type="radio" name="sunlight" value="medium" /> Medium / filtered</label><label class="option-card"><input type="radio" name="sunlight" value="high" /> Bright / direct</label></div></div>
+          <div class="step" data-step="3"><h2>How often can you water?</h2><div class="option-grid"><label class="option-card"><input type="radio" name="water" value="low" required /> Every 10+ days</label><label class="option-card"><input type="radio" name="water" value="medium" /> About weekly</label><label class="option-card"><input type="radio" name="water" value="high" /> Every few days</label></div></div>
+          <div class="step" data-step="4"><h2>How much space do you have?</h2><div class="option-grid"><label class="option-card"><input type="radio" name="space" value="small" required /> Small (desk/pot)</label><label class="option-card"><input type="radio" name="space" value="medium" /> Medium (balcony/corner)</label><label class="option-card"><input type="radio" name="space" value="large" /> Large (garden/floor)</label></div></div>
+          <div class="step" data-step="5"><h2>Your plant care experience?</h2><div class="option-grid"><label class="option-card"><input type="radio" name="difficulty" value="beginner" required /> Beginner</label><label class="option-card"><input type="radio" name="difficulty" value="intermediate" /> Intermediate</label><label class="option-card"><input type="radio" name="difficulty" value="advanced" /> Advanced</label></div></div>
+          <div class="step" data-step="6"><h2>What is your main purpose?</h2><div class="option-grid"><label class="option-card"><input type="radio" name="purpose" value="air-purifying" required /> Air Purifying</label><label class="option-card"><input type="radio" name="purpose" value="flowering" /> Flowering</label><label class="option-card"><input type="radio" name="purpose" value="medicinal" /> Medicinal</label><label class="option-card"><input type="radio" name="purpose" value="edible" /> Edible</label><label class="option-card"><input type="radio" name="purpose" value="decorative" /> Decorative</label><label class="option-card"><input type="radio" name="purpose" value="fragrant" /> Fragrant</label></div></div>
+          <div class="step" data-step="7"><h2>Need pet-safe plants only?</h2><div class="option-grid"><label class="option-card"><input type="radio" name="petSafe" value="yes" required /> Yes</label><label class="option-card"><input type="radio" name="petSafe" value="no" /> No preference</label></div></div>
+
+          <p id="validationMessage" class="validation-message"></p>
+          <div class="actions">
+            <button type="button" id="prevBtn" class="btn btn-secondary" disabled>Back</button>
+            <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+          </div>
+        </form>
+      </section>
+
+
+
+      <section class="card loading-screen hidden" id="loadingScreen" aria-live="polite">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p>Finding your perfect plant...</p>
+      </section>
+
+      <section class="card results hidden" id="resultsSection">
+        <div class="results-header">
+          <h2>Your Plant Recommendation Dashboard</h2>
+          <button class="btn btn-secondary" id="restartBtn">Retake Quiz</button>
+        </div>
+
+        <article id="bestMatch" class="best-match"></article>
+
+        <section id="startGrowingCard" class="start-growing"></section>
+
+        <section>
+          <h3 class="section-title">Alternatives</h3>
+          <div id="alternativesGrid" class="results-grid"></div>
+        </section>
+
+        <section class="care-panel" id="carePanel"></section>
+
+        <section class="dashboard-actions">
+          <button class="btn btn-primary" id="soilMixBtn">Soil Mix Calculator</button>
+          <button class="btn btn-secondary" id="downloadPlanBtn">Download Care Plan</button>
+        </section>
+
+        <section class="email-capture" aria-live="polite">
+          <h3 class="section-title">Save Your Plant Plan 🌿</h3>
+          <p class="email-helper">Get your personalized plant care guide on email</p>
+          <form id="emailForm" class="email-form" novalidate>
+            <label>
+              Email
+              <input type="email" name="email" id="subscriberEmail" placeholder="you@example.com" required />
+            </label>
+            <button type="submit" class="btn btn-primary" id="emailSubmitBtn" disabled>Send My Plant Plan</button>
+          </form>
+          <p id="emailStatus" class="email-status"></p>
+        </section>
+
+        <section class="eco-journey-card">
+          <h3 class="section-title">Continue Your Eco Journey</h3>
+          <div class="eco-actions">
+            <a class="btn btn-secondary" href="/tools/">Explore More Tools</a>
+            <a class="btn btn-primary" href="/green-space/">Build Your Green Space</a>
+          </div>
+        </section>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
