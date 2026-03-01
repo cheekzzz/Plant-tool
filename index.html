@@ -86,27 +86,22 @@
   <h3 class="section-title">Save Your Plant Plan 🌿</h3>
   <p class="email-helper">Get your personalized plant care guide on email</p>
 
-  <form id="emailForm" class="email-form" novalidate>
-    <label>
-      Email
-      <input type="email" id="emailInput" name="EMAIL" placeholder="Enter your email" required />
-    </label>
+  <form id="emailForm">
 
-    <!-- Mailchimp fields -->
-    <input type="hidden" name="FNAME" id="plantField">
-   <input type="hidden" name="PLANT" id="plantNameField">
+  <input type="email" name="EMAIL" required>
+
+  <input type="hidden" name="FNAME" id="plantField">
+  <input type="hidden" name="PLANT" id="plantNameField">
   <input type="hidden" name="SCORE" id="scoreField">
   <input type="hidden" name="LOCATION" id="locationField">
-    <!-- Tag -->
-    <input type="hidden" name="tags" value="663483" />
 
-    <!-- Anti-bot -->
-    <input type="text" name="b_a044a68c308987aaf0eaa7e52_6904a60fbf" tabindex="-1" value="" style="position:absolute; left:-5000px;">
+  <input type="hidden" name="tags" value="663483">
 
-    <button type="submit" class="btn btn-primary" id="emailSubmitBtn" disabled>
-      Send My Plant Plan
-    </button>
-  </form>
+  <input type="text" name="b_a044a68c308987aaf0eaa7e52_6904a60fbf" style="display:none">
+
+  <button type="submit">Send My Plant Plan</button>
+
+</form>
 
   <p id="emailStatus" class="email-status"></p>
 </section>
