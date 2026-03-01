@@ -79,14 +79,27 @@
 
         <section class="care-panel" id="carePanel"></section>
 
-        <section class="dashboard-actions">
-          <button class="btn btn-primary" id="soilMixBtn">Soil Mix Calculator</button>
-          <button class="btn btn-secondary" id="downloadPlanBtn">Download Care Plan</button>
-       <section class="email-capture" aria-live="polite">
+  <section class="dashboard-actions">
+  <button type="button" id="soilMixBtn" class="btn btn-secondary">
+    Soil Mix Calculator
+  </button>
+
+  <button type="button" id="downloadPlanBtn" class="btn btn-primary">
+    Download Care Plan
+  </button>
+</section>
+
+<section class="email-capture">
   <h3 class="section-title">Save Your Plant Plan 🌿</h3>
   <p class="email-helper">Get your personalized plant care guide on email</p>
 
-  <form id="emailForm" class="email-form" novalidate>
+  <form 
+  id="emailForm" 
+  class="email-form"
+  action="https://earthlyours.us13.list-manage.com/subscribe/post?u=a044a68c308987aaf0eaa7e52&id=6904a60fbf&f_id=00c14be1f0"
+  method="POST"
+  target="_blank"
+>
     <label>
       Email
       <input type="email" id="emailInput" name="EMAIL" placeholder="Enter your email" required />
@@ -103,7 +116,7 @@
     <!-- Anti-bot -->
     <input type="text" name="b_a044a68c308987aaf0eaa7e52_6904a60fbf" tabindex="-1" value="" style="position:absolute; left:-5000px;">
 
-    <button type="submit" class="btn btn-primary" id="emailSubmitBtn" disabled>
+    <button type="submit" class="btn btn-primary" id="emailSubmitBtn">
       Send My Plant Plan
     </button>
   </form>

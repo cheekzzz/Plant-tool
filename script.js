@@ -53,8 +53,6 @@ const microFeedbackByStep = {
   8: "Final step — let's make sure your recommendation is pet friendly.",
 };
 
-const MAILCHIMP_URL = "https://earthlyours.us13.list-manage.com/subscribe/post?u=a044a68c308987aaf0eaa7e52&id=6904a60fbf&f_id=00c14be1f0";
-
 function renderStepDots() {
   stepDots.innerHTML = Array.from({ length: totalSteps }, (_, index) => {
     const isActive = index + 1 <= currentStep ? "active" : "";
@@ -65,18 +63,6 @@ function renderStepDots() {
 async function loadPlants() {
   const response = await fetch("plants.json");
   plantDatabase = await response.json();
-}
-
-function populateUserData() {
-  const bestPlant = lastTopPlants[0];
-  if (!bestPlant) return;
-
-  document.getElementById("plantField")?.setAttribute("value", bestPlant.name);
-  document.getElementById("scoreField")?.setAttribute("value", String(bestPlant.confidence));
-  document.getElementById("purposeField")?.setAttribute("value", lastAnswers.purpose || "");
-  document.getElementById("locationField")?.setAttribute("value", lastAnswers.location || "");
-  document.getElementById("sunlightField")?.setAttribute("value", lastAnswers.sunlight || "");
-  document.getElementById("waterField")?.setAttribute("value", lastAnswers.water || "");
 }
 
 function showSuccessMessage() {
@@ -444,10 +430,12 @@ function populateUserData() {
   document.getElementById("scoreField").value = String(bestPlant.confidence || "");
   document.getElementById("locationField").value = lastAnswers.location || "";
 }
-async function submitEmailCapture(event) {
-  event.preventDefault();
- console.log("Top plants:", lastTopPlants);
+function submitEmailCapture(event) {
+
+  console.log("Top plants:", lastTopPlants);
+
   if (!lastTopPlants.length) {
+    event.preventDefault();
     emailStatus.textContent = "Generate your plant recommendation first";
     return;
   }
@@ -458,38 +446,23 @@ async function submitEmailCapture(event) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailPattern.test(email)) {
+    event.preventDefault();
     emailStatus.textContent = "Please enter a valid email address.";
     emailInput.focus();
     return;
   }
 
-  // Fill hidden fields
+  // Fill hidden fields before submit
   populateUserData();
 
+  // Debug
   const formData = new FormData(emailForm);
-
-  // DEBUG (check console)
   for (let pair of formData.entries()) {
     console.log(pair[0], pair[1]);
   }
 
-  emailSubmitBtn.disabled = true;
-  emailStatus.textContent = "Sending your plant plan...";
-
-  try {
-    await fetch(MAILCHIMP_URL, {
-      method: "POST",
-      body: formData,
-      mode: "no-cors"
-    });
-
-    showSuccessMessage();
-
-  } catch (error) {
-    console.error("Mailchimp error:", error);
-    emailStatus.textContent = "Something went wrong. Try again.";
-    emailSubmitBtn.disabled = false;
-  }
+emailSubmitBtn.disabled = false;
+emailStatus.textContent = "Sending your plant plan...";
 }
 
 
