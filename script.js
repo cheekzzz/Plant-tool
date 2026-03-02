@@ -432,10 +432,11 @@ function populateUserData() {
 }
 function submitEmailCapture(event) {
 
+  event.preventDefault(); // 🔥 ADD THIS
+
   console.log("Top plants:", lastTopPlants);
 
   if (!lastTopPlants.length) {
-    event.preventDefault();
     emailStatus.textContent = "Generate your plant recommendation first";
     return;
   }
@@ -446,17 +447,23 @@ function submitEmailCapture(event) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailPattern.test(email)) {
-    event.preventDefault();
     emailStatus.textContent = "Please enter a valid email address.";
     emailInput.focus();
     return;
   }
 
-  // Fill hidden fields
   populateUserData();
 
   emailSubmitBtn.disabled = true;
   emailStatus.textContent = "Sending your plant plan...";
+
+  // Submit form manually
+  emailForm.submit();
+
+  // Show success
+  setTimeout(() => {
+    showSuccessMessage();
+  }, 1500);
 }
 
 
