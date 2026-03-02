@@ -452,17 +452,11 @@ function submitEmailCapture(event) {
     return;
   }
 
-  // Fill hidden fields before submit
+  // Fill hidden fields
   populateUserData();
 
-  // Debug
-  const formData = new FormData(emailForm);
-  for (let pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
-  }
-
-emailSubmitBtn.disabled = false;
-emailStatus.textContent = "Sending your plant plan...";
+  emailSubmitBtn.disabled = true;
+  emailStatus.textContent = "Sending your plant plan...";
 }
 
 
